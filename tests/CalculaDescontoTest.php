@@ -34,7 +34,7 @@ class CalculaDescontoTest extends TestCase
     public function testDesconto500Reais()
     {
         $orcamento = new Orcamento(600);
-        
+
         $this->assertEquals(60, $this->calculadoraDesconto->calcula($orcamento), 0.00001);
     }
 
@@ -47,6 +47,25 @@ class CalculaDescontoTest extends TestCase
         $orcamento->addItem(new Item('Caneta', 120));
         $orcamento->addItem(new Item('Régua', 120));
         $this->assertEquals(32.5, $this->calculadoraDesconto->calcula($orcamento), 0.00001);
+    }
+
+    public function testDescontoVendaCasadaLapisECaneta()
+    {
+        $orcamento = new Orcamento(300);
+        $orcamento->addItem(new Item('Lapis', 75));
+        $orcamento->addItem(new Item('Caderno', 75));
+        $orcamento->addItem(new Item('Borracha', 75));
+        $orcamento->addItem(new Item('Caneta', 75));
+        $this->assertEquals(15, $this->calculadoraDesconto->calcula($orcamento), 0.00001);
+    }
+
+    public function testDescontoVendaCasadaLapis()
+    {
+        $orcamento = new Orcamento(300);
+        $orcamento->addItem(new Item('Lapis', 75));
+        $orcamento->addItem(new Item('Caderno', 75));
+        $orcamento->addItem(new Item('Borracha', 75));
+        $this->assertEquals(0, $this->calculadoraDesconto->calcula($orcamento), 0.00001);
     }
 }
 
