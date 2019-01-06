@@ -1,14 +1,14 @@
 <?php
 use PHPUnit\Framework\TestCase;
 use App\StrategyPattern\Model\Orcamento;
+use App\ChainOfResponsibility\CalculadoraDesconto;
+use App\ChainOfResponsibility\Model\Item;
 
 /**
  * test case.
  */
 class CalculaDescontoTest extends TestCase
 {
-
-    private $orcamento;
 
     private $calculadoraDesconto;
 
@@ -18,7 +18,6 @@ class CalculaDescontoTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->orcamento = new Orcamento(500);
         $this->calculadoraDesconto = new CalculadoraDesconto();
         // TODO Auto-generated CalculaDescontoTest::setUp()
     }
@@ -34,7 +33,20 @@ class CalculaDescontoTest extends TestCase
 
     public function testDesconto500Reais()
     {
-        $this->assertEquals(50, $this->calculadoraDesconto->calcula($this->orcamento), 0.00001);
+        $orcamento = new Orcamento(600);
+        
+        $this->assertEquals(60, $this->calculadoraDesconto->calcula($orcamento), 0.00001);
+    }
+
+    public function testDesconto5Itens()
+    {
+        $orcamento = new Orcamento(650);
+        $orcamento->addItem(new Item('Lapis', 170));
+        $orcamento->addItem(new Item('Caderno', 120));
+        $orcamento->addItem(new Item('Borracha', 120));
+        $orcamento->addItem(new Item('Caneta', 120));
+        $orcamento->addItem(new Item('Régua', 120));
+        $this->assertEquals(32.5, $this->calculadoraDesconto->calcula($orcamento), 0.00001);
     }
 }
 
